@@ -1,10 +1,12 @@
 import express from "express";
 
-const prod = process.env.NODE_ENV === "production";
+// const prod = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 5173;
-const base = process.env.BASE || (prod ? "/front_7th_chapter4-1/vanilla/" : "/");
+// const base = process.env.BASE || (prod ? "/front_7th_chapter4-1/vanilla/" : "/");
 
 const app = express();
+
+app.use("/src", express.static("./src/components"));
 
 const render = () => {
   return `<div>안녕하세요</div>`;
