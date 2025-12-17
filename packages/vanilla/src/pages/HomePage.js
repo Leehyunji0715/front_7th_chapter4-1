@@ -1,4 +1,4 @@
-import { productStore } from "../stores";
+import { PRODUCT_ACTIONS, productStore } from "../stores";
 import { router, withLifecycle } from "../router";
 import { loadProducts, loadProductsAndCategories } from "../services";
 import { HomePageComponent } from "./common/HomePageComponent.js";
@@ -6,7 +6,20 @@ import { HomePageComponent } from "./common/HomePageComponent.js";
 export const HomePage = withLifecycle(
   {
     onMount: () => {
-      loadProductsAndCategories();
+      if (window.__INITIAL_DATA__) {
+        productStore.dispatch({
+          type: PRODUCT_ACTIONS.SETUP,
+          payload: {
+            products: window.__INITIAL_DATA__.products,
+            categories: window.__INITIAL_DATA__.categories,
+            totalCount: window.__INITIAL_DATA__.pagination.total,
+            loading: false,
+            status: "done",
+          },
+        });
+      } else {
+        loadProductsAndCategories();
+      }
     },
     watches: [
       () => {
